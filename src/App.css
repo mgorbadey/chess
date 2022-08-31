@@ -38,3 +38,7 @@ background-color: rgb(96, 33, 33);
 .white {
 background-color:rgb(232, 206, 171);
 }
+
+.selected{
+  background-color: teal;
+}
