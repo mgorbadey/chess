@@ -10,9 +10,10 @@ interface CellProps {
 const CellComponent: FC<CellProps> = ({ cell, selected, click }) => {
   return (
     <div
-      className={['cell', cell.color, selected ? 'selected' : ''].join(' ')}
-      onClick={()=> click(cell)}
+      className={['cell', cell.color, selected ? 'selected' : '', cell.available && cell.figure ? 'availableFigure' : ''].join(' ')}
+      onClick={() => click(cell)}
     >
+      {cell.available && !cell.figure && <div className={'available'} />}
       {cell.figure?.logo && <img src={cell.figure.logo} alt='лого' />}
     </div>
   );

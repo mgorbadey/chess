@@ -10,7 +10,7 @@ import { Rook } from "./figures/Rook";
 export class Board {
   cells: Cell[][] = []
 
-
+  // функция отрисовки доски
   public initCells() {
     for (let i = 0; i < 8; i++) {
       const row: Cell[] = []
@@ -25,36 +25,66 @@ export class Board {
     }
   }
 
+  //функция копирования доски
+  public getCopyBoard() {
+    const newBoard = new Board()
+    newBoard.cells = this.cells
+    return newBoard
+  }
+
+  // функция подсвечивания полей, куда может походить фигура
+  public highlightCells(selectedCell: Cell | null) {
+    for (let i = 0; i < this.cells.length; i++) {
+      const row = this.cells[i]
+      for (let j = 0; j < row.length; j++) {
+        const target = row[j]
+        target.available = !!selectedCell?.figure?.canMove(target)
+      }
+    }
+  }
+
+  // функция присваивания координат
   public getCell(x: number, y: number) {
     return this.cells[y][x]
   }
 
+  // функция добавления пешек
   private addPawns() {
     for (let i = 0; i < 8; i++) {
       new Pawn(Colors.BLACK, this.getCell(i, 1))
       new Pawn(Colors.WHITE, this.getCell(i, 6))
     }
   }
+
+  // функция добавления королей
   private addKings() {
     new King(Colors.BLACK, this.getCell(4, 0))
     new King(Colors.WHITE, this.getCell(4, 7))
   }
+
+  // функция добавления дам
   private addQueens() {
     new Queen(Colors.BLACK, this.getCell(3, 0))
     new Queen(Colors.WHITE, this.getCell(3, 7))
   }
+
+  // функция добавления слонов
   private addBishops() {
     new Bishop(Colors.BLACK, this.getCell(2, 0))
     new Bishop(Colors.BLACK, this.getCell(5, 0))
     new Bishop(Colors.WHITE, this.getCell(2, 7))
     new Bishop(Colors.WHITE, this.getCell(5, 7))
   }
+
+  // функция добавления коней
   private addKnights() {
     new Knight(Colors.BLACK, this.getCell(1, 0))
     new Knight(Colors.BLACK, this.getCell(6, 0))
     new Knight(Colors.WHITE, this.getCell(1, 7))
     new Knight(Colors.WHITE, this.getCell(6, 7))
   }
+
+  // функция добавления ладей
   private addRooks() {
     new Rook(Colors.BLACK, this.getCell(0, 0))
     new Rook(Colors.BLACK, this.getCell(7, 0))
